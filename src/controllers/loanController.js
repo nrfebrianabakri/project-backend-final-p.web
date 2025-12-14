@@ -44,20 +44,39 @@ export const getLoanById = async (req, res) => {
 
 
 // POST /api/loans
-export const createLoan = async (req, res) => {
-  const userId = req.user.id; 
-  const { bookId } = req.body;
-
+export const createLoan = async (req, res, next) => {
   try {
-    const loan = await prisma.loan.create({
-      data: { userId, bookId },
+    const user = req.user; // dari auth middleware
+    const { bookId } = req.body;
+
+    const book = await prisma.book.findUnique({
+      where: { id: bookId }
     });
 
-    res.status(201).json({ success: true, data: loan });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    if (!book) {
+      return res.status(404).json({
+        success: false,
+        message: "Book not found"
+      });
+    }
+
+    const loan = await prisma.loan.create({
+      data: {
+        user: { connect: { id: user.id } },
+        book: { connect: { id: bookId } }
+      }
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Loan created successfully",
+      data: loan
+    });
+  } catch (error) {
+    next(error);
   }
 };
+
 
 // PUT /api/loans/:id
 export const updateLoan = async (req, res) => {
