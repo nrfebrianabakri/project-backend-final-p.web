@@ -18,7 +18,8 @@ model User {
   email    String @unique
   password String
   role     Role   @default(USER)
-
+  
+  refreshToken String?  
   loans Loan[]
 
   createdAt DateTime @default(now())

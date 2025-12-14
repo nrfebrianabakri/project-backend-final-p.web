@@ -1,12 +1,25 @@
-import jwt from 'jsonwebtoken';
-import 'dotenv/config';
+import jwt from "jsonwebtoken";
 
-const SECRET = process.env.JWT_SECRET;
+export const signAccessToken = (payload) => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined");
+  }
 
-export const signToken = (payload) => {
-  return jwt.sign(payload, SECRET, { expiresIn: '1h' });
+  return jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || "15m",
+  });
 };
 
-export const verifyToken = (token) => {
-  return jwt.verify(token, SECRET);
+export const signRefreshToken = (payload) => {
+  if (!process.env.JWT_REFRESH_SECRET) {
+    throw new Error("JWT_REFRESH_SECRET is not defined");
+  }
+
+  return jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || "7d",
+  });
+};
+
+export const verifyRefreshToken = (token) => {
+  return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
 };
