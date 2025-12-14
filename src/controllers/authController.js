@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import prisma from '../../prisma/client.js'; // prisma client
+import prisma from '../config/prisma.js'; // prisma client
 import { signToken } from '../config/jwt.js';
 
 export const register = async (req, res) => {
