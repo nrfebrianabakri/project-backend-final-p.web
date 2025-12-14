@@ -24,9 +24,14 @@ export const getLoanById = async (req, res) => {
 
 // POST /api/loans
 export const createLoan = async (req, res) => {
-  const { userId, bookId } = req.body;
+  const userId = req.user.id; 
+  const { bookId } = req.body;
+
   try {
-    const loan = await prisma.loan.create({ data: { userId, bookId } });
+    const loan = await prisma.loan.create({
+      data: { userId, bookId },
+    });
+
     res.status(201).json({ success: true, data: loan });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

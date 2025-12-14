@@ -37,5 +37,5 @@ export const login = async (req, res) => {
 };
 
 export const me = async (req, res) => {
-  res.json(req.user); // nanti diisi middleware auth
+  res.json(req.user); 
 };
