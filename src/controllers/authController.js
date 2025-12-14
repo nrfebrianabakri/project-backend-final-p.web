@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import prisma from '../config/prisma.js'; // prisma client
 import { signToken } from '../config/jwt.js';
 
+// UNTUK REGITER (/api/auth/register)
 export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -20,6 +21,7 @@ export const register = async (req, res) => {
   }
 };
 
+// UNTUK LOGIN (/api/auth/login)
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;

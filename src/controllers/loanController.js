@@ -13,14 +13,35 @@ export const getLoans = async (req, res) => {
 // GET /api/loans/:id
 export const getLoanById = async (req, res) => {
   const { id } = req.params;
+  const user = req.user; 
+
   try {
-    const loan = await prisma.loan.findUnique({ where: { id: parseInt(id) }, include: { user: true, book: true } });
-    if (!loan) return res.status(404).json({ success: false, message: "Loan not found" });
+    const loan = await prisma.loan.findUnique({
+      where: { id: parseInt(id) },
+      include: { user: true, book: true },
+    });
+
+    if (!loan) {
+      return res.status(404).json({
+        success: false,
+        message: "Loan not found",
+      });
+    }
+
+    //  CEK KEPEMILIKAN
+    if (user.role === "USER" && loan.userId !== user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to access this loan",
+      });
+    }
+
     res.json({ success: true, data: loan });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
 
 // POST /api/loans
 export const createLoan = async (req, res) => {
@@ -60,3 +81,18 @@ export const deleteLoan = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+// GET /api/loans/me
+export const getMyLoans = async (req, res) => {
+  try {
+    const loans = await prisma.loan.findMany({
+      where: { userId: req.user.id },
+      include: { book: true },
+    });
+
+    res.json({ success: true, data: loans });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
