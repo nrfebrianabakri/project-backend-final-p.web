@@ -1,0 +1,10 @@
+Beberapa api documentation:
+![health](<img/Screenshot 2025-12-14 at 23.35.38.png>)
+![login](<img/Screenshot 2025-12-14 at 23.36.43.png>)
+![lihat daftar buku](<img/Screenshot 2025-12-14 at 23.37.34.png>)
+![lihat detail buku](<img/Screenshot 2025-12-14 at 23.37.46.png>)
+![hapus data buku](<img/Screenshot 2025-12-14 at 23.39.46.png>)
+![tambah buku](<img/Screenshot 2025-12-14 at 23.43.01.png>)
+![lihat user data sendiri](<img/Screenshot 2025-12-14 at 23.43.30.png>)
+![lihat daftar kategori](<img/Screenshot 2025-12-14 at 23.43.55.png>)
+![lihat dafttar yang meminjam](<img/Screenshot 2025-12-14 at 23.44.13.png>)
